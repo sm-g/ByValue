@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
+    <VersionPrefix>0.1.0</VersionPrefix>
     <Title>ByValue</Title>
     <Product>ByValue</Product>
+    <Authors>smg</Authors>
+    <PackageProjectUrl>https://github.com/sm-g/ByValue</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/sm-g/ByValue/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/sm-g/ByValue</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryBranch>master</RepositoryBranch>

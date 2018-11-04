@@ -1,0 +1,21 @@
+version: '{build}'
+pull_requests:
+  do_not_increment_build_number: true
+image: Visual Studio 2017
+environment:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+nuget:
+  disable_publish_on_pr: true
+skip_commits:
+  files:
+    - '**/*.md'
+
+build_script:
+- pwsh: .\build.ps1 -Target AppVeyor
+
+test: off
+
+artifacts:
+- path: .\artifacts\**\*.nupkg
+  name: AppVeyor NuGet feed

@@ -25,6 +25,10 @@ indent_size = 2
 [*.ps1]
 indent_size = 4
 
+# Cake files
+[*.cake]
+indent_size = 4
+
 # CSharp files
 [*.{cs,csx}]
 indent_size = 4
