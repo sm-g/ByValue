@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace ByValue.Tests
+namespace ByValue
 {
     [TestFixture]
     public class MultiSetEqualityComparerTests
