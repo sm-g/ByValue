@@ -16,7 +16,7 @@ namespace ByValue
             Assert.AreNotEqual(first, second);
             Assert.AreNotEqual(second, first);
 
-            // hash code may be same of different
+            // hash code may be same for different object
         }
     }
 }

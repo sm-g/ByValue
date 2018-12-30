@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace ByValue
 {
@@ -92,6 +93,18 @@ namespace ByValue
             var secondCollection = new[] { "2", "1" };
             var firstByValue = new CollectionByValue<string>(firstCollection, NotStrictOptions);
             var secondByValue = new CollectionByValue<string>(secondCollection, NotStrictOptions);
+
+            CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
+        }
+
+        [Test]
+        public void WithCustomComparer_ShouldUseComparer([Values]bool strictOrdering)
+        {
+            var firstCollection = new[] { "1", "2" };
+            var secondCollection = new[] { "1", "222" };
+            var comparer = new AlwaysEqualsEqualityComparer();
+            var firstByValue = new CollectionByValue<string>(firstCollection, new Options<string>(strictOrdering, comparer));
+            var secondByValue = new CollectionByValue<string>(secondCollection, new Options<string>(strictOrdering, comparer));
 
             CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
         }
@@ -191,5 +204,18 @@ namespace ByValue
         }
 
         #endregion ToString
+
+        private class AlwaysEqualsEqualityComparer : IEqualityComparer<string>
+        {
+            public bool Equals(string x, string y)
+            {
+                return true;
+            }
+
+            public int GetHashCode(string obj)
+            {
+                return 1;
+            }
+        }
     }
 }

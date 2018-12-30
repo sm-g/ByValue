@@ -65,7 +65,7 @@ namespace ByValue
             {
                 unchecked
                 {
-                    return (sum * 23) + (value != null ? value.GetHashCode() : 0);
+                    return (sum * 23) + (value != null ? Options.EqualityComparer.GetHashCode(value) : 0);
                 }
             });
         }

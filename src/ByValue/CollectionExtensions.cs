@@ -25,21 +25,14 @@ namespace ByValue
         //    return new CollectionByValue<T>(collection, ordering);
         //}
 
-        public static ICollectionByValue ByValue<TKey, TValue>(this IDictionary<TKey, TValue> collection)
+        public static ICollectionByValue ByValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
-            return new DictionaryByValue<TKey, TValue>(collection);
+            return new DictionaryByValue<TKey, TValue>(dictionary);
         }
 
-        public static ICollectionByValue ByValue<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dict)
+        public static ICollectionByValue ByValue<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary)
         {
-            return new DictionaryByValue<TKey, TValue>(dict);
+            return new DictionaryByValue<TKey, TValue>(dictionary);
         }
-
-        // TODO support CollectionByValue with custom IEqualityComparer
-
-        //public static ICollectionByValue WithComparer<T>(this ICollectionByValue collectionByValue, IEqualityComparer<T> comparer)
-        //{
-        //    return collectionByValue;
-        //}
     }
 }
