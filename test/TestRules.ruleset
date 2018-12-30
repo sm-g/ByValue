@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for test projects" ToolsVersion="15.0">
+  <Include Path="..\src\Rules.ruleset" Action="Default" />
+
+  <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
+    <!-- Fields should not have public accessibility -->
+    <Rule Id="S1104" Action="None" />
+    <!-- Local variables should not shadow class fields -->
+    <Rule Id="S1117" Action="None" />
+    <!-- Unused method parameters should be removed -->
+    <Rule Id="S1172" Action="Info" />
+    <!-- Trivial properties should be auto-implemented -->
+    <Rule Id="S2292" Action="None" />
+    <!-- Inner class members should not shadow outer class "static" or type members -->
+    <Rule Id="S3218" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <!-- The spacing around a comma is incorrect, within a C# code file. -->
+    <Rule Id="SA1001" Action="None" />
+    <!-- The spacing around an operator symbol is incorrect, within a C# code file. -->
+    <Rule Id="SA1003" Action="None" />
+    <!-- The parameters to a C# method or indexer call or declaration are not all on the same line or each on a separate line. -->
+    <Rule Id="SA1117" Action="None" />
+    <!-- A constant field is placed beneath a non-constant field. -->
+    <Rule Id="SA1203" Action="None" />
+  </Rules>
+</RuleSet>

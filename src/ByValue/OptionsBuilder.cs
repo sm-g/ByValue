@@ -34,6 +34,8 @@ namespace ByValue
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override string ToString() => base.ToString();
 
+#pragma warning disable S3249 // Classes directly extending "object" should not call "base" in "GetHashCode" or "Equals"
+
         /// <summary>
         ///     Determines whether the specified object is equal to the current object.
         /// </summary>
@@ -48,6 +50,8 @@ namespace ByValue
         /// <returns> A hash code for the current object. </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override int GetHashCode() => base.GetHashCode();
+
+#pragma warning restore S3249 // Classes directly extending "object" should not call "base" in "GetHashCode" or "Equals"
 
         #endregion Hidden System.Object members
     }
