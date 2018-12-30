@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ByValue
 {
@@ -6,7 +7,15 @@ namespace ByValue
     {
         public static ICollectionByValue ByValue<T>(this IReadOnlyCollection<T> collection, Ordering ordering)
         {
-            return new CollectionByValue<T>(collection, ordering);
+            return new CollectionByValue<T>(collection, new Options<T>(ordering == Ordering.Strict, null));
+        }
+
+        public static ICollectionByValue ByValue<T>(this IReadOnlyCollection<T> collection, Action<OptionsBuilder<T>> optionsAction = null)
+        {
+            var builder = new OptionsBuilder<T>();
+            optionsAction?.Invoke(builder);
+            var options = builder.Build();
+            return new CollectionByValue<T>(collection, options);
         }
 
         // TODO support CollectionByValue of ISet

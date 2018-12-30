@@ -5,13 +5,16 @@ namespace ByValue
     [TestFixture]
     public class CollectionByValueTests
     {
+        private static readonly Options<string> StrictOptions = new Options<string>(true, null);
+        private static readonly Options<string> NotStrictOptions = new Options<string>(false, null);
+
         [Test]
         public void OfNullCollections_ShouldBeEqual()
         {
             var firstCollection = (string[])null;
             var secondCollection = (string[])null;
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.Strict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, StrictOptions);
 
             CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
         }
@@ -21,8 +24,8 @@ namespace ByValue
         {
             var firstCollection = (string[])null;
             var secondCollection = (int[])null;
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
-            var secondByValue = new CollectionByValue<int>(secondCollection, Ordering.Strict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
+            var secondByValue = new CollectionByValue<int>(secondCollection, new Options<int>(true, null));
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -32,8 +35,8 @@ namespace ByValue
         {
             var firstCollection = (string[])null;
             var secondCollection = new string[] { };
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.NotStrict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.NotStrict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, NotStrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, NotStrictOptions);
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -43,8 +46,8 @@ namespace ByValue
         {
             var firstCollection = new string[] { };
             var secondCollection = (string[])null;
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.NotStrict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.NotStrict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, NotStrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, NotStrictOptions);
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -54,8 +57,8 @@ namespace ByValue
         {
             var firstCollection = new byte[] { 1, 2 };
             var secondCollection = new int[] { 1, 2 };
-            var firstByValue = new CollectionByValue<byte>(firstCollection, Ordering.Strict);
-            var secondByValue = new CollectionByValue<int>(secondCollection, Ordering.Strict);
+            var firstByValue = new CollectionByValue<byte>(firstCollection, new Options<byte>(true, null));
+            var secondByValue = new CollectionByValue<int>(secondCollection, new Options<int>(true, null));
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -65,8 +68,8 @@ namespace ByValue
         {
             var firstCollection = new[] { "1", "2" };
             var secondCollection = new[] { "2", "1" };
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.Strict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, StrictOptions);
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -76,8 +79,8 @@ namespace ByValue
         {
             var firstCollection = new[] { "1", "2" };
             var secondCollection = new[] { "1", "2" };
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.Strict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, StrictOptions);
 
             CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
         }
@@ -87,8 +90,8 @@ namespace ByValue
         {
             var firstCollection = new[] { "1", "2" };
             var secondCollection = new[] { "2", "1" };
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.NotStrict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.NotStrict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, NotStrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, NotStrictOptions);
 
             CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
         }
@@ -98,8 +101,8 @@ namespace ByValue
         {
             var firstCollection = new[] { "1", "2" };
             var secondCollection = new[] { "1" };
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.Strict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, StrictOptions);
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -109,8 +112,8 @@ namespace ByValue
         {
             var firstCollection = new[] { "1" };
             var secondCollection = new[] { "1" };
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.NotStrict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, NotStrictOptions);
 
             CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
         }
@@ -120,8 +123,8 @@ namespace ByValue
         {
             var firstCollection = new[] { "1", "2" };
             var secondCollection = new[] { "2", "1" };
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.NotStrict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, NotStrictOptions);
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -131,8 +134,8 @@ namespace ByValue
         {
             var firstCollection = new[] { "1" };
             var secondCollection = new[] { "1" };
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
-            var secondByValue = new CollectionByValue<string>(secondCollection, Ordering.Strict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
+            var secondByValue = new CollectionByValue<string>(secondCollection, StrictOptions);
 
             Assert.AreEqual(firstByValue.GetHashCode(), secondByValue.GetHashCode());
         }
@@ -141,7 +144,7 @@ namespace ByValue
         public void OfEmptyCollection_ShouldHaveZeroHashCode()
         {
             var firstCollection = new string[] { };
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
 
             Assert.AreEqual(0, firstByValue.GetHashCode());
         }
@@ -150,7 +153,7 @@ namespace ByValue
         public void OfNullCollection_ShouldHaveZeroHashCode()
         {
             var firstCollection = (string[])null;
-            var firstByValue = new CollectionByValue<string>(firstCollection, Ordering.Strict);
+            var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
 
             Assert.AreEqual(0, firstByValue.GetHashCode());
         }
@@ -160,7 +163,7 @@ namespace ByValue
         [Test]
         public void ToString_ShouldReturnCountOfCollectionAndAllItems()
         {
-            var byValue = new CollectionByValue<string>(new[] { "qwe", "asd" }, Ordering.Strict);
+            var byValue = new CollectionByValue<string>(new[] { "qwe", "asd" }, StrictOptions);
 
             var result = byValue.ToString();
 
@@ -170,7 +173,7 @@ namespace ByValue
         [Test]
         public void ToString_OfEmptyCollection_ShouldReturnCountOfCollectionAndAllItems()
         {
-            var byValue = new CollectionByValue<int>(new int[] { }, Ordering.Strict);
+            var byValue = new CollectionByValue<int>(new int[] { }, new Options<int>(true, null));
 
             var result = byValue.ToString();
 
@@ -180,7 +183,7 @@ namespace ByValue
         [Test]
         public void ToString_OfNullCollection_ShouldReturnTypeAndNullMark()
         {
-            var byValue = new CollectionByValue<int>((int[])null, Ordering.Strict);
+            var byValue = new CollectionByValue<int>((int[])null, new Options<int>(true, null));
 
             var result = byValue.ToString();
 

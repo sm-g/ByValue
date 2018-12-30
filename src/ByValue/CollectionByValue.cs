@@ -8,14 +8,13 @@ namespace ByValue
     {
         private readonly IReadOnlyCollection<T> _collection;
 
-        public CollectionByValue(IReadOnlyCollection<T> collection, Ordering ordering)
+        public CollectionByValue(IReadOnlyCollection<T> collection, Options<T> options)
         {
             _collection = collection;
-            InOrder = ordering == Ordering.Strict;
+            Options = options;
         }
 
-        public bool InOrder { get; }
-        public IEqualityComparer<T> EqualityComparer { get; set; }
+        public Options<T> Options { get; }
 
         public override bool Equals(object obj)
         {
@@ -29,7 +28,7 @@ namespace ByValue
             if (other is null)
                 return false;
 
-            var inOrder = InOrder || other.InOrder;
+            var inOrder = Options.InOrder || other.Options.InOrder;
             if (inOrder)
             {
                 if (_collection is null)
@@ -40,11 +39,11 @@ namespace ByValue
                 if (_collection.Count != other._collection.Count)
                     return false;
 
-                return _collection.SequenceEqual(other._collection, EqualityComparer);
+                return _collection.SequenceEqual(other._collection, Options.EqualityComparer);
             }
             else
             {
-                return MultiSetEqualityComparer.Equals(_collection, other._collection, EqualityComparer);
+                return MultiSetEqualityComparer.Equals(_collection, other._collection, Options.EqualityComparer);
             }
         }
 
