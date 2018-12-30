@@ -47,7 +47,7 @@ Task("Version")
             else
             {
                 versionSuffix = BuildVersionSuffix();
-                packageVersion = versionPrefix + versionSuffix;
+                packageVersion = versionPrefix + "-" + versionSuffix;
             }
         }
 
