@@ -1,11 +1,6 @@
-var target = Argument("target", "Default");
-var configuration = Argument("configuration", "Release");
-var buildNumber =
-    HasArgument("BuildNumber") ? Argument("BuildNumber", "0") :
-    AppVeyor.IsRunningOnAppVeyor ? AppVeyor.Environment.Build.Number.ToString() :
-    TravisCI.IsRunningOnTravisCI ? TravisCI.Environment.Build.BuildNumber.ToString() :
-    EnvironmentVariable("BUILD_NUMBER") ?? "localbuild";
-var versionSuffix = buildNumber;
+var _target = Argument("target", "Default");
+var _configuration = Argument("configuration", "Release");
+var _versionSuffix = BuildVersionSuffix();
 
 var PROJECT_DIR = Context.Environment.WorkingDirectory.FullPath + "/";
 var SRC_DIR = PROJECT_DIR + "src/";
@@ -15,54 +10,25 @@ var PACKAGES_DIR = ARTIFACTS_DIR + "packages/";
 var TEST_RESULTS_DIR = ARTIFACTS_DIR + "test-results/";
 var CSPROJ = SRC_DIR + "ByValue/ByValue.csproj";
 
-Task("Clean")
-    .Does(() => {
-        CleanDirectory(ARTIFACTS_DIR);
-
-        // dotnet clean does not work on root dir: https://github.com/dotnet/cli/issues/7240
-        var projects = GetFiles("./**/*.csproj");
-        foreach (var project in projects)
-        {
-            DotNetCoreClean(project.FullPath,
-                new DotNetCoreCleanSettings() {
-                    Configuration = configuration
-                }
-            );
-        }
-    });
-
-Task("Version")
-    .Does(() => {
-        var versionPrefix = new Version(XmlPeek("Directory.Build.props", "//VersionPrefix"));
-        var packageVersion = versionPrefix + "-" + versionSuffix;
-
-        if (BuildSystem.IsRunningOnAppVeyor)
-        {
-            var tag = AppVeyor.Environment.Repository.Tag;
-            if (tag.IsTag)
-            {
-                packageVersion = tag.Name;
-                AppVeyor.UpdateBuildVersion(packageVersion);
-            }
-            else
-            {
-                versionSuffix = BuildVersionSuffix();
-                packageVersion = versionPrefix + "-" + versionSuffix;
-            }
-        }
-
-        Information("Building {0} version {1}", configuration, packageVersion);
-    });
-
 string BuildVersionSuffix() {
+    var buildNumber =
+        HasArgument("BuildNumber") ? Argument("BuildNumber", "0") :
+        AppVeyor.IsRunningOnAppVeyor ? AppVeyor.Environment.Build.Number.ToString() :
+        TravisCI.IsRunningOnTravisCI ? TravisCI.Environment.Build.BuildNumber.ToString() :
+        EnvironmentVariable("BUILD_NUMBER") ?? "localbuild";
+
     if (!BuildSystem.IsRunningOnAppVeyor)
-        return versionSuffix;
+        return buildNumber;
 
-    var branch = AppVeyor.Environment.Repository.Branch;
-    var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
-    var dbgSuffix = configuration == "Debug" ? "-dbg" : "";
+    var tag = AppVeyor.Environment.Repository.Tag;
+    if (tag.IsTag)
+        return null; // only version prefix used for NuGet.org
 
+    var dbgSuffix = _configuration == "Debug" ? "-dbg" : "";
     var result = "ci-" + buildNumber + dbgSuffix;
+
+    var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
+    var branch = AppVeyor.Environment.Repository.Branch;
 
     if (isPullRequest)
         result += "-pr-" + AppVeyor.Environment.PullRequest.Number;
@@ -76,11 +42,35 @@ string BuildVersionSuffix() {
     return result;
 }
 
+Setup(context =>
+{
+    var versionPrefix = XmlPeek("Directory.Build.props", "//VersionPrefix");
+    var packageVersion = _versionSuffix == null ? versionPrefix : versionPrefix + "-" + _versionSuffix;
+
+    Information("Building {0} version {1}", _configuration, packageVersion);
+});
+
+Task("Clean")
+    .Does(() => {
+        CleanDirectory(ARTIFACTS_DIR);
+
+        // dotnet clean does not work on root dir: https://github.com/dotnet/cli/issues/7240
+        var projects = GetFiles("./**/*.csproj");
+        foreach (var project in projects)
+        {
+            DotNetCoreClean(project.FullPath,
+                new DotNetCoreCleanSettings() {
+                    Configuration = _configuration
+                }
+            );
+        }
+    });
+
 Task("Build")
     .Does(() => {
         DotNetCoreBuild(".",
             new DotNetCoreBuildSettings() {
-                Configuration = configuration
+                Configuration = _configuration
             }
         );
     });
@@ -98,7 +88,7 @@ Task("Test")
             DotNetCoreTest(
                 testProject.FullPath,
                 new DotNetCoreTestSettings() {
-                    Configuration = configuration,
+                    Configuration = _configuration,
                     NoBuild = true,
                     NoRestore = true,
                     Logger = $"nunit;LogFilePath={TEST_RESULTS_DIR + testResultsFileName}"
@@ -123,11 +113,11 @@ Task("Package")
     .Does(() => {
         DotNetCorePack(CSPROJ,
             new DotNetCorePackSettings {
-                Configuration = configuration,
+                Configuration = _configuration,
                 NoBuild = true,
                 NoRestore = true,
                 OutputDirectory = PACKAGES_DIR,
-                VersionSuffix = versionSuffix
+                VersionSuffix = _versionSuffix
             }
         );
     });
@@ -158,14 +148,12 @@ Task("Default")
     .IsDependentOn("Package");
 
 Task("Travis")
-    .IsDependentOn("Version")
     .IsDependentOn("Clean")
     .IsDependentOn("Build")
     .IsDependentOn("Test")
     ;
 
 Task("AppVeyor")
-    .IsDependentOn("Version")
     .IsDependentOn("Clean")
     .IsDependentOn("Build")
     .IsDependentOn("Test")
@@ -173,4 +161,4 @@ Task("AppVeyor")
     .IsDependentOn("Publish-MyGet")
     ;
 
-RunTarget(target);
+RunTarget(_target);
