@@ -10,6 +10,8 @@ nuget:
 skip_commits:
   files:
     - '**/*.md'
+# only run against the virtual PR merge
+skip_branch_with_pr: true
 
 build_script:
 - pwsh: .\build.ps1 -Target AppVeyor
@@ -18,4 +20,13 @@ test: off
 
 artifacts:
 - path: .\artifacts\**\*.nupkg
-  name: AppVeyor NuGet feed
+  name: NuGet
+
+deploy:
+- provider: NuGet
+  name: production
+  api_key:
+    secure: g5lCUB9eMnOFB9LCzdIkMq980+FNCLXSFEPS6dmbHnLxjxMqmzHWlMlYJll/mhF4
+  on:
+    branch: master
+    appveyor_repo_tag: true
