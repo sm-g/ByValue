@@ -1,6 +1,6 @@
 # ByValue
 
-[![Build status](https://ci.appveyor.com/api/projects/status/k6nmr1mdixf7xho6/branch/master?svg=true)](https://ci.appveyor.com/project/sm-g/byvalue/branch/master) [![Build Status](https://travis-ci.org/sm-g/ByValue.svg?branch=master)](https://travis-ci.org/sm-g/ByValue)
+[![Build status](https://ci.appveyor.com/api/projects/status/k6nmr1mdixf7xho6/branch/master?svg=true)](https://ci.appveyor.com/project/sm-g/byvalue/branch/master) [![Build Status](https://travis-ci.org/sm-g/ByValue.svg?branch=master)](https://travis-ci.org/sm-g/ByValue) [![NuGet](http://img.shields.io/nuget/v/ByValue.svg)](https://www.nuget.org/packages/ByValue/)
 
 This library helps to create ValueObjects with properly implemented equality behavior:
 
@@ -165,6 +165,6 @@ More examples could be found in [tests](https://github.com/sm-g/ByValue/tree/mas
 
 - [ ] Add documentation
 - [ ] Add usage sample
-- [ ] Publish on nuget
+- [x] Publish on nuget
 - [ ] Add `HashSet` support
 - [x] Add support of custom `EqualityComparer` for collection elements
