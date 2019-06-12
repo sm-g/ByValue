@@ -8,7 +8,7 @@ namespace ByValue
     /// <remarks>
     /// Because it is not struct, there is no need of <see cref="System.IEquatable{T}"/>.
     /// See https://stackoverflow.com/questions/2476793/when-to-use-iequatable-and-why for details.
-    /// (Also we never will have overload resolution problems: http://blog.mischel.com/2013/01/05/inheritance-and-iequatable-do-not-mix/)
+    /// (Also we never will have overload resolution problems: http://blog.mischel.com/2013/01/05/inheritance-and-iequatable-do-not-mix/).
     /// </remarks>
     public abstract class ValueObject
     {
@@ -53,7 +53,7 @@ namespace ByValue
         /// <summary>
         /// Returns object view like "{1,string,true}" (for better logging, debugging, etc.).
         /// <para/>
-        /// If you want default behavior, override it: <c>public override string ToString() => GetType().ToString();</c>
+        /// If you want default behavior, override it: <c>public override string ToString() => GetType().ToString();</c>.
         /// </summary>
         [DebuggerStepThrough]
         public override string ToString()

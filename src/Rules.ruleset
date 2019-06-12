@@ -4,19 +4,29 @@
     <Rule Id="CS4014" Action="Error" />
   </Rules>
   <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
+    <!-- Types should be named in PascalCase -->
     <Rule Id="S101" Action="None" />
+    <!-- URIs should not be hardcoded -->
     <Rule Id="S1075" Action="None" />
     <!-- Track uses of "TODO" tags -->
     <Rule Id="S1135" Action="None" />
+    <!-- Sections of code should not be commented out -->
     <Rule Id="S125" Action="None" />
+    <!-- Unused local variables should be removed -->
     <Rule Id="S1481" Action="Info" />
     <!-- Inheritance list should not be redundant -->
     <Rule Id="S1939" Action="Info" />
+    <!-- Types and methods should not have too many generic parameters -->
     <Rule Id="S2436" Action="None" />
+    <!-- Static fields should not be used in generic types -->
     <Rule Id="S2743" Action="Info" />
+    <!-- "IEnumerable" LINQs should be simplified -->
     <Rule Id="S2971" Action="None" />
+    <!-- Caller information arguments should not be provided explicitly -->
     <Rule Id="S3236" Action="Error" />
+    <!-- Ternary operators should not be nested -->
     <Rule Id="S3358" Action="Info" />
+    <!-- "ISerializable" should be implemented correctly -->
     <Rule Id="S3925" Action="None" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
