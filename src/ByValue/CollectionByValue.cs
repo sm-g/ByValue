@@ -18,8 +18,10 @@ namespace ByValue
 
         public override bool Equals(object obj)
         {
-            if (obj is null) return false;
-            if (obj.GetType() != GetType()) return false;
+            if (obj is null)
+                return false;
+            if (obj.GetType() != GetType())
+                return false;
             return Equals((CollectionByValue<T>)obj);
         }
 
@@ -54,12 +56,12 @@ namespace ByValue
 
             // disable "var inOrder = InOrder || other.InOrder;" to be able to use this:
             //
-            //if (InOrder)
-            //{
-            //    // struct-like hashing
-            //    var firstItemHash = _collection.FirstOrDefault()?.GetHashCode() ?? 0;
-            //    return _collection.Count ^ firstItemHash;
-            //}
+            ////if (InOrder)
+            ////{
+            ////    // struct-like hashing
+            ////    var firstItemHash = _collection.FirstOrDefault()?.GetHashCode() ?? 0;
+            ////    return _collection.Count ^ firstItemHash;
+            ////}
 
             return _collection.OrderBy(x => x).Aggregate(17, (sum, value) =>
             {

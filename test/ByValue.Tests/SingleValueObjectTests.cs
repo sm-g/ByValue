@@ -97,9 +97,9 @@ namespace ByValue
 
             Assert.AreNotEqual(derivedId1, derivedId2, "derived1 equals derived2");
             Assert.AreNotEqual(derivedId2, derivedId1, "derived2 equals derived1");
-            Assert.IsFalse(equalsAsBase(derivedId1, derivedId2), "equals as base");
+            Assert.IsFalse(EqualsAsBase(derivedId1, derivedId2), "equals as base");
 
-            bool equalsAsBase(UserId x, UserId y) => x.Equals(y) || y.Equals(x);
+            bool EqualsAsBase(UserId x, UserId y) => x.Equals(y) || y.Equals(x);
         }
 
         [Test]
@@ -110,9 +110,9 @@ namespace ByValue
 
             Assert.AreEqual(derivedId1, derivedId2, "derived1 not equals derived2");
             Assert.AreEqual(derivedId2, derivedId1, "derived2 not equals derived1");
-            Assert.IsTrue(equalsAsBase(derivedId1, derivedId2), "not equals as base");
+            Assert.IsTrue(EqualsAsBase(derivedId1, derivedId2), "not equals as base");
 
-            bool equalsAsBase(UserId x, UserId y) => x.Equals(y) && y.Equals(x);
+            bool EqualsAsBase(UserId x, UserId y) => x.Equals(y) && y.Equals(x);
         }
 
         [Test]

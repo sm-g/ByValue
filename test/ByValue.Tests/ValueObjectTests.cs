@@ -109,9 +109,9 @@ namespace ByValue
 
             Assert.AreNotEqual(derivedAddress1, derivedAddress2, "derived1 equals derived2");
             Assert.AreNotEqual(derivedAddress2, derivedAddress1, "derived2 equals derived1");
-            Assert.IsFalse(equalsAsBase(derivedAddress1, derivedAddress2), "equals as base");
+            Assert.IsFalse(EqualsAsBase(derivedAddress1, derivedAddress2), "equals as base");
 
-            bool equalsAsBase(Address x, Address y) => x.Equals(y) || y.Equals(x);
+            bool EqualsAsBase(Address x, Address y) => x.Equals(y) || y.Equals(x);
         }
 
         [Test]
@@ -122,9 +122,9 @@ namespace ByValue
 
             Assert.AreEqual(derivedAddress1, derivedAddress2, "derived1 not equals derived2");
             Assert.AreEqual(derivedAddress2, derivedAddress1, "derived2 not equals derived1");
-            Assert.IsTrue(equalsAsBase(derivedAddress1, derivedAddress2), "not equals as base");
+            Assert.IsTrue(EqualsAsBase(derivedAddress1, derivedAddress2), "not equals as base");
 
-            bool equalsAsBase(Address x, Address y) => x.Equals(y) && y.Equals(x);
+            bool EqualsAsBase(Address x, Address y) => x.Equals(y) && y.Equals(x);
         }
 
         [Test]

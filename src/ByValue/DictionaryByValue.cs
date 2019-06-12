@@ -25,8 +25,10 @@ namespace ByValue
 
         public override bool Equals(object obj)
         {
-            if (obj is null) return false;
-            if (obj.GetType() != GetType()) return false;
+            if (obj is null)
+                return false;
+            if (obj.GetType() != GetType())
+                return false;
             return Equals((DictionaryByValue<TKey, TValue>)obj);
         }
 

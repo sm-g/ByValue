@@ -20,10 +20,10 @@ namespace ByValue
 
         // TODO support CollectionByValue of ISet
 
-        //public static ICollectionByValue ByValue<T>(this ISet<T> collection)
-        //{
-        //    return new CollectionByValue<T>(collection, ordering);
-        //}
+        ////public static ICollectionByValue ByValue<T>(this ISet<T> collection)
+        ////{
+        ////    return new CollectionByValue<T>(collection, ordering);
+        ////}
 
         public static ICollectionByValue ByValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
