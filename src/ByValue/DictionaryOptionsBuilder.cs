@@ -3,26 +3,26 @@ using System.ComponentModel;
 
 namespace ByValue
 {
-    public class OptionsBuilder<T>
+    public class DictionaryOptionsBuilder<TKey, TValue>
     {
-        private IEqualityComparer<T> _comparer;
-        private Ordering _ordering = Ordering.NotStrict;
+        private IEqualityComparer<TKey> _keysComparer;
+        private IEqualityComparer<TValue> _valuesComparer;
 
-        public OptionsBuilder<T> StrictOrdering()
+        public DictionaryOptionsBuilder<TKey, TValue> UseComparer(IEqualityComparer<TKey> keysComparer)
         {
-            _ordering = Ordering.Strict;
+            _keysComparer = keysComparer ?? throw new System.ArgumentNullException(nameof(keysComparer));
             return this;
         }
 
-        public OptionsBuilder<T> UseComparer(IEqualityComparer<T> comparer)
+        public DictionaryOptionsBuilder<TKey, TValue> UseComparer(IEqualityComparer<TValue> valuesComparer)
         {
-            _comparer = comparer ?? throw new System.ArgumentNullException(nameof(comparer));
+            _valuesComparer = valuesComparer ?? throw new System.ArgumentNullException(nameof(valuesComparer));
             return this;
         }
 
-        public Options<T> Build()
+        public DictionaryOptions<TKey, TValue> Build()
         {
-            return new Options<T>(_ordering == Ordering.Strict, _comparer);
+            return new DictionaryOptions<TKey, TValue>(_keysComparer, _valuesComparer);
         }
 
         #region Hidden System.Object members

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ByValue
 {
@@ -102,7 +101,7 @@ namespace ByValue
         {
             var firstCollection = new[] { "1", "2" };
             var secondCollection = new[] { "1", "222" };
-            var comparer = new AlwaysEqualsEqualityComparer();
+            var comparer = new AlwaysEqualsEqualityComparer<string>();
             var firstByValue = new CollectionByValue<string>(firstCollection, new Options<string>(strictOrdering, comparer));
             var secondByValue = new CollectionByValue<string>(secondCollection, new Options<string>(strictOrdering, comparer));
 
@@ -204,18 +203,5 @@ namespace ByValue
         }
 
         #endregion ToString
-
-        private class AlwaysEqualsEqualityComparer : IEqualityComparer<string>
-        {
-            public bool Equals(string x, string y)
-            {
-                return true;
-            }
-
-            public int GetHashCode(string obj)
-            {
-                return 1;
-            }
-        }
     }
 }

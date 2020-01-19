@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ByValue
 {
     [TestFixture]
-    public class MultiSetEqualityComparerTests
+    public partial class MultiSetEqualityComparerTests
     {
         [Test]
         public void NullCollections_ShouldBeEqual()
@@ -70,7 +69,7 @@ namespace ByValue
         }
 
         [Test]
-        public void ShouldHandleNullValues()
+        public void ShouldHandleNullItems()
         {
             var first = new[] { "a", null };
             var second = new[] { "a", null };
@@ -102,20 +101,7 @@ namespace ByValue
             var first = new[] { 1 };
             var second = new[] { 22 };
 
-            Assert.IsTrue(MultiSetEqualityComparer.Equals(first, second, new AlwaysEqualsEqualityComparer()));
-        }
-
-        private class AlwaysEqualsEqualityComparer : IEqualityComparer<int>
-        {
-            public bool Equals(int x, int y)
-            {
-                return true;
-            }
-
-            public int GetHashCode(int obj)
-            {
-                return 1;
-            }
+            Assert.IsTrue(MultiSetEqualityComparer.Equals(first, second, new AlwaysEqualsEqualityComparer<int>()));
         }
     }
 }

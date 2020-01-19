@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ByValue
@@ -11,6 +12,8 @@ namespace ByValue
         public CollectionByValue(IReadOnlyCollection<T> collection, Options<T> options)
         {
             _collection = collection;
+
+            Debug.Assert(!options.Equals(default), "default options struct");
             Options = options;
         }
 

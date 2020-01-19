@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+
 using NUnit.Framework;
+
 using IDict = System.Collections.Generic.IDictionary<string, int>;
 
 namespace ByValue
@@ -7,13 +9,15 @@ namespace ByValue
     [TestFixture]
     public class DictionaryByValueTests
     {
+        private static readonly DictionaryOptions<string, int> Options = new DictionaryOptions<string, int>(default, default);
+
         [Test]
         public void OfNullDicts_ShouldBeEqual()
         {
             IDict firstDict = null;
             IDict secondDict = null;
-            var firstByValue = new DictionaryByValue<string, int>(firstDict);
-            var secondByValue = new DictionaryByValue<string, int>(secondDict);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, Options);
+            var secondByValue = new DictionaryByValue<string, int>(secondDict, Options);
 
             CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
         }
@@ -23,8 +27,8 @@ namespace ByValue
         {
             IDictionary<string, int> firstDict = null;
             IDictionary<string, long> secondDict = null;
-            var firstByValue = new DictionaryByValue<string, int>(firstDict);
-            var secondByValue = new DictionaryByValue<string, long>(secondDict);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, Options);
+            var secondByValue = new DictionaryByValue<string, long>(secondDict, new DictionaryOptions<string, long>(default, default));
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -34,8 +38,8 @@ namespace ByValue
         {
             IDict firstDict = null;
             IDict secondDict = new Dictionary<string, int> { };
-            var firstByValue = new DictionaryByValue<string, int>(firstDict);
-            var secondByValue = new DictionaryByValue<string, int>(secondDict);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, Options);
+            var secondByValue = new DictionaryByValue<string, int>(secondDict, Options);
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -45,8 +49,8 @@ namespace ByValue
         {
             IDict firstDict = new Dictionary<string, int> { };
             IDict secondDict = null;
-            var firstByValue = new DictionaryByValue<string, int>(firstDict);
-            var secondByValue = new DictionaryByValue<string, int>(secondDict);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, Options);
+            var secondByValue = new DictionaryByValue<string, int>(secondDict, Options);
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -56,8 +60,8 @@ namespace ByValue
         {
             IDictionary<string, byte> firstDict = new Dictionary<string, byte> { { "1", 1 } };
             IDictionary<string, int> secondDict = new Dictionary<string, int> { { "1", 1 } };
-            var firstByValue = new DictionaryByValue<string, byte>(firstDict);
-            var secondByValue = new DictionaryByValue<string, int>(secondDict);
+            var firstByValue = new DictionaryByValue<string, byte>(firstDict, new DictionaryOptions<string, byte>(default, default));
+            var secondByValue = new DictionaryByValue<string, int>(secondDict, Options);
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -67,8 +71,8 @@ namespace ByValue
         {
             IDict firstDict = new Dictionary<string, int> { { "1", 1 }, { "2", 2 } };
             IDict secondDict = new Dictionary<string, int> { { "2", 2 }, { "1", 1 } };
-            var firstByValue = new DictionaryByValue<string, int>(firstDict);
-            var secondByValue = new DictionaryByValue<string, int>(secondDict);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, Options);
+            var secondByValue = new DictionaryByValue<string, int>(secondDict, Options);
 
             CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
         }
@@ -78,8 +82,8 @@ namespace ByValue
         {
             IDict firstDict = new Dictionary<string, int> { { "1", 1 }, { "2", 2 } };
             IDict secondDict = new Dictionary<string, int> { { "1", 1 } };
-            var firstByValue = new DictionaryByValue<string, int>(firstDict);
-            var secondByValue = new DictionaryByValue<string, int>(secondDict);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, Options);
+            var secondByValue = new DictionaryByValue<string, int>(secondDict, Options);
 
             CollectionByValueAssert.AreNotEqual(firstByValue, secondByValue);
         }
@@ -89,8 +93,34 @@ namespace ByValue
         {
             IDict firstDict = new Dictionary<string, int> { { "1", 1 }, { "2", 2 } };
             IDict secondDict = new Dictionary<string, int> { { "1", 1 }, { "2", 2 } };
-            var firstByValue = new DictionaryByValue<string, int>(firstDict);
-            var secondByValue = new DictionaryByValue<string, int>(secondDict);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, Options);
+            var secondByValue = new DictionaryByValue<string, int>(secondDict, Options);
+
+            CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
+        }
+
+        [Test]
+        public void WithCustomKeysComparer_ShouldUseComparer()
+        {
+            IDict firstDict = new Dictionary<string, int> { { "1", 1 }, { "2", 2 } };
+            IDict secondDict = new Dictionary<string, int> { { "1", 1 }, { "222", 2 } };
+            var keysComparer = new AlwaysEqualsEqualityComparer<string>();
+            var options = new DictionaryOptions<string, int>(keysComparer, default);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, options);
+            var secondByValue = new DictionaryByValue<string, int>(secondDict, options);
+
+            CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
+        }
+
+        [Test]
+        public void WithCustomValuesComparer_ShouldUseComparer()
+        {
+            IDict firstDict = new Dictionary<string, int> { { "1", 1 }, { "2", 2 } };
+            IDict secondDict = new Dictionary<string, int> { { "1", 1 }, { "2", 222 } };
+            var valuesComparer = new AlwaysEqualsEqualityComparer<int>();
+            var options = new DictionaryOptions<string, int>(default, valuesComparer);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, options);
+            var secondByValue = new DictionaryByValue<string, int>(secondDict, options);
 
             CollectionByValueAssert.AreEqual(firstByValue, secondByValue);
         }
@@ -99,7 +129,7 @@ namespace ByValue
         public void OfEmptyDict_ShouldHaveZeroHashCode()
         {
             IDict firstDict = new Dictionary<string, int> { };
-            var firstByValue = new DictionaryByValue<string, int>(firstDict);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, Options);
 
             Assert.AreEqual(0, firstByValue.GetHashCode());
         }
@@ -108,7 +138,7 @@ namespace ByValue
         public void OfNullDict_ShouldHaveZeroHashCode()
         {
             IDict firstDict = null;
-            var firstByValue = new DictionaryByValue<string, int>(firstDict);
+            var firstByValue = new DictionaryByValue<string, int>(firstDict, Options);
 
             Assert.AreEqual(0, firstByValue.GetHashCode());
         }
@@ -119,7 +149,7 @@ namespace ByValue
         public void ToString_ShouldReturnCountOfDictAndAllItems()
         {
             IDict dict = new Dictionary<string, int> { { "qwe", 1 }, { "asd", 2 } };
-            var byValue = new DictionaryByValue<string, int>(dict);
+            var byValue = new DictionaryByValue<string, int>(dict, Options);
 
             var result = byValue.ToString();
 
@@ -130,7 +160,7 @@ namespace ByValue
         public void ToString_OfEmptyDict_ShouldReturnCountOfDictAndAllItems()
         {
             IDict dict = new Dictionary<string, int>();
-            var byValue = new DictionaryByValue<string, int>(dict);
+            var byValue = new DictionaryByValue<string, int>(dict, Options);
 
             var result = byValue.ToString();
 
@@ -140,7 +170,7 @@ namespace ByValue
         [Test]
         public void ToString_OfNullDict_ShouldReturnTypeAndNullMark()
         {
-            var byValue = new DictionaryByValue<string, int>((IDict)null);
+            var byValue = new DictionaryByValue<string, int>((IDict)null, default);
 
             var result = byValue.ToString();
 

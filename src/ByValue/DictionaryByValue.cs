@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ByValue
@@ -11,17 +12,25 @@ namespace ByValue
 
         private readonly int? _count;
 
-        public DictionaryByValue(IDictionary<TKey, TValue> dictionary)
+        public DictionaryByValue(IDictionary<TKey, TValue> dictionary, DictionaryOptions<TKey, TValue> options)
         {
             _collection = dictionary;
             _count = dictionary?.Count;
+
+            Debug.Assert(!options.Equals(default), "default options struct");
+            Options = options;
         }
 
-        public DictionaryByValue(IReadOnlyDictionary<TKey, TValue> dictionary)
+        public DictionaryByValue(IReadOnlyDictionary<TKey, TValue> dictionary, DictionaryOptions<TKey, TValue> options)
         {
             _collection = dictionary;
             _count = dictionary?.Count;
+
+            Debug.Assert(!options.Equals(default), "default options struct");
+            Options = options;
         }
+
+        public DictionaryOptions<TKey, TValue> Options { get; }
 
         public override bool Equals(object obj)
         {
@@ -37,7 +46,11 @@ namespace ByValue
             if (other is null)
                 return false;
 
-            return MultiSetEqualityComparer.Equals(_collection, other._collection, null);
+            return MultiSetEqualityComparer.Equals(
+                _collection,
+                other._collection,
+                Options.KeysEqualityComparer,
+                Options.ValuesEqualityComparer);
         }
 
         public override int GetHashCode()
@@ -49,7 +62,7 @@ namespace ByValue
             {
                 unchecked
                 {
-                    return (sum * 23) + value.Key.GetHashCode();
+                    return (sum * 23) + Options.KeysEqualityComparer.GetHashCode(value.Key);
                 }
             });
         }
