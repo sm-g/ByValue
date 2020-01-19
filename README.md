@@ -5,7 +5,7 @@
 This library helps to create ValueObjects with properly implemented equality behavior:
 
 1. Provides base `ValueObject` class.
-2. Gives extension `ByValue()` for comparing collections with semantic of ValueObject.
+2. Gives extension `ByValue()` for comparing collections with semantic of ValueObject (`IReadOnlyCollection`, `IReadOnlyDictionary` and `IDictionary` are supported).
 
 ## Example
 
@@ -29,8 +29,12 @@ public class MultilineAddress : ValueObject
     // here you should return values, which will be used in Equals() and GetHashCode()
     protected override IEnumerable<object> Reflect()
     {
-        yield return AddressLines.ByValue(Ordering.Strict); // be default collections compared with not strcit ordering
-        yield return City.ToUpperInvariant(); // use can transform object's properties when return them
+        // by default collections compared with not strcit ordering
+        yield return AddressLines.ByValue(Ordering.Strict);
+
+        // you can transform object's properties when return them
+        yield return City.ToUpperInvariant();
+
         yield return PostalCode;
     }
 }
@@ -144,10 +148,10 @@ public class EnhancedAddressBook : AddressBook
             if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
                 return false;
 
-            return
-                x.AddressLines.ByValue(Ordering.Strict).Equals(y.AddressLines.ByValue(Ordering.Strict)) &&
-                x.City == y.City && // do not ignore case of chars
-                x.PostalCode == y.PostalCode;
+            return x.AddressLines.ByValue(Ordering.Strict).Equals(y.AddressLines.ByValue(Ordering.Strict))
+                // do not ignore case of chars
+                && x.City == y.City
+                && x.PostalCode == y.PostalCode;
         }
 
         public int GetHashCode(MultilineAddress obj)
@@ -160,11 +164,3 @@ public class EnhancedAddressBook : AddressBook
 ```
 
 More examples could be found in [tests](https://github.com/sm-g/ByValue/tree/master/test/ByValue.Tests/Samples).
-
-## roadmap for version 1.0
-
-- [ ] Add documentation
-- [ ] Add usage sample
-- [x] Publish on nuget
-- [ ] Add `HashSet` support
-- [x] Add support of custom `EqualityComparer` for collection elements
