@@ -4,7 +4,7 @@ namespace ByValue
 {
     public readonly struct DictionaryOptions<TKey, TValue>
     {
-        public DictionaryOptions(IEqualityComparer<TKey> keysEqualityComparer, IEqualityComparer<TValue> valuesEqualityComparer)
+        public DictionaryOptions(IEqualityComparer<TKey>? keysEqualityComparer, IEqualityComparer<TValue>? valuesEqualityComparer)
         {
             KeysEqualityComparer = keysEqualityComparer ?? EqualityComparer<TKey>.Default;
             ValuesEqualityComparer = valuesEqualityComparer ?? EqualityComparer<TValue>.Default;

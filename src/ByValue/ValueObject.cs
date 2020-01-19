@@ -35,7 +35,7 @@ namespace ByValue
                 return false;
 
             var other = obj as ValueObject;
-            return Reflect().SequenceEqual(other.Reflect());
+            return Reflect().SequenceEqual(other!.Reflect());
         }
 
         [DebuggerStepThrough]

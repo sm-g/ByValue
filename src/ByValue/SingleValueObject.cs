@@ -40,7 +40,7 @@ namespace ByValue
                 return false;
 
             var other = obj as SingleValueObject<T>;
-            return Value.Equals(other.Value);
+            return Value.Equals(other!.Value);
         }
 
         [DebuggerStepThrough]

@@ -5,8 +5,8 @@ namespace ByValue
 {
     public class DictionaryOptionsBuilder<TKey, TValue>
     {
-        private IEqualityComparer<TKey> _keysComparer;
-        private IEqualityComparer<TValue> _valuesComparer;
+        private IEqualityComparer<TKey>? _keysComparer;
+        private IEqualityComparer<TValue>? _valuesComparer;
 
         public DictionaryOptionsBuilder<TKey, TValue> UseComparer(IEqualityComparer<TKey> keysComparer)
         {

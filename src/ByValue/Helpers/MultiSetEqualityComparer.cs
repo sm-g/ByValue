@@ -5,7 +5,7 @@ namespace ByValue
 {
     internal static class MultiSetEqualityComparer
     {
-        public static bool Equals<T>(IEnumerable<T> first, IEnumerable<T> second, IEqualityComparer<T> comparer = null)
+        public static bool Equals<T>(IEnumerable<T>? first, IEnumerable<T>? second, IEqualityComparer<T>? comparer = null)
         {
             var byPreconditions = EqualsByPreconditions(first, second);
             if (byPreconditions.HasValue)
@@ -15,7 +15,7 @@ namespace ByValue
 
             var itemsCount = new Dictionary<T, int>(comparer);
             var nullsCount = 0;
-            foreach (var item in first)
+            foreach (var item in first!)
             {
                 if (item is null)
                 {
@@ -26,7 +26,7 @@ namespace ByValue
                     Inc(itemsCount, item);
                 }
             }
-            foreach (var item in second)
+            foreach (var item in second!)
             {
                 if (item is null)
                 {
@@ -46,10 +46,10 @@ namespace ByValue
         }
 
         public static bool Equals<TKey, TValue>(
-            IEnumerable<KeyValuePair<TKey, TValue>> first,
-            IEnumerable<KeyValuePair<TKey, TValue>> second,
-            IEqualityComparer<TKey> keysComparer = null,
-            IEqualityComparer<TValue> valuesComparer = null)
+            IEnumerable<KeyValuePair<TKey, TValue>>? first,
+            IEnumerable<KeyValuePair<TKey, TValue>>? second,
+            IEqualityComparer<TKey>? keysComparer = null,
+            IEqualityComparer<TValue>? valuesComparer = null)
         {
             var byPreconditions = EqualsByPreconditions(first, second);
             if (byPreconditions.HasValue)
@@ -61,7 +61,7 @@ namespace ByValue
             // key is always not null in dictionary
             var itemsCount = new Dictionary<TKey, Dictionary<TValue, int>>(keysComparer);
             var nullValuesCount = new Dictionary<TKey, int>(keysComparer);
-            foreach (var item in first)
+            foreach (var item in first!)
             {
                 if (itemsCount.ContainsKey(item.Key))
                 {
@@ -83,7 +83,7 @@ namespace ByValue
                 }
             }
 
-            foreach (var item in second)
+            foreach (var item in second!)
             {
                 if (item.Value is null)
                 {
@@ -131,7 +131,7 @@ namespace ByValue
             return false;
         }
 
-        private static bool? EqualsByPreconditions<T>(IEnumerable<T> first, IEnumerable<T> second)
+        private static bool? EqualsByPreconditions<T>(IEnumerable<T>? first, IEnumerable<T>? second)
         {
             if (first is null)
                 return second is null;

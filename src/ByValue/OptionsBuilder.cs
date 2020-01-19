@@ -5,7 +5,7 @@ namespace ByValue
 {
     public class OptionsBuilder<T>
     {
-        private IEqualityComparer<T> _comparer;
+        private IEqualityComparer<T>? _comparer;
         private Ordering _ordering = Ordering.NotStrict;
 
         public OptionsBuilder<T> StrictOrdering()

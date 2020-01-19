@@ -8,11 +8,11 @@ namespace ByValue
     internal class DictionaryByValue<TKey, TValue> : IEquatable<DictionaryByValue<TKey, TValue>>, ICollectionByValue
     {
         // common interface for IDictionary and IReadOnlyDictionary
-        private readonly IEnumerable<KeyValuePair<TKey, TValue>> _collection;
+        private readonly IEnumerable<KeyValuePair<TKey, TValue>>? _collection;
 
         private readonly int? _count;
 
-        public DictionaryByValue(IDictionary<TKey, TValue> dictionary, DictionaryOptions<TKey, TValue> options)
+        public DictionaryByValue(IDictionary<TKey, TValue>? dictionary, DictionaryOptions<TKey, TValue> options)
         {
             _collection = dictionary;
             _count = dictionary?.Count;
@@ -21,7 +21,7 @@ namespace ByValue
             Options = options;
         }
 
-        public DictionaryByValue(IReadOnlyDictionary<TKey, TValue> dictionary, DictionaryOptions<TKey, TValue> options)
+        public DictionaryByValue(IReadOnlyDictionary<TKey, TValue>? dictionary, DictionaryOptions<TKey, TValue> options)
         {
             _collection = dictionary;
             _count = dictionary?.Count;

@@ -4,7 +4,7 @@ namespace ByValue
 {
     public readonly struct Options<T>
     {
-        public Options(bool inOrder, IEqualityComparer<T> equalityComparer)
+        public Options(bool inOrder, IEqualityComparer<T>? equalityComparer)
         {
             InOrder = inOrder;
             EqualityComparer = equalityComparer ?? EqualityComparer<T>.Default;
