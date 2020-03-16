@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using NUnit.Framework;
 
 namespace ByValue
@@ -12,7 +13,7 @@ namespace ByValue
             var addressBook = new AddressBook(new MultilineAddress[0]);
             var sameAddressBook = new AddressBook(new MultilineAddress[0]);
 
-            AssertEquals(addressBook, sameAddressBook);
+            ObjectAssert.AreEqual(addressBook, sameAddressBook);
         }
 
         [Test]
@@ -27,7 +28,7 @@ namespace ByValue
                 GetRedSquareAddress()
             });
 
-            AssertEquals(addressBook, shuffledAddressBook);
+            ObjectAssert.AreEqual(addressBook, shuffledAddressBook);
         }
 
         [Test]
@@ -42,22 +43,7 @@ namespace ByValue
                 GetEiffelTowerAddress("paris"),
             });
 
-            AssertNotEquals(addressBook, lowercasedAddressBook);
-        }
-
-        private void AssertEquals(object first, object second)
-        {
-            // cannot use Assert.AreEqual - NUnit will treat object as collections (by base type)
-
-            Assert.True(first.Equals(second));
-            Assert.True(second.Equals(first));
-            Assert.AreEqual(first.GetHashCode(), second.GetHashCode());
-        }
-
-        private void AssertNotEquals(object first, object second)
-        {
-            Assert.False(first.Equals(second));
-            Assert.False(second.Equals(first));
+            ObjectAssert.AreNotEqual(addressBook, lowercasedAddressBook);
         }
 
         private MultilineAddress GetRedSquareAddress() => new MultilineAddress(new[] { "Red Square" }, "Moscow", "109012");
