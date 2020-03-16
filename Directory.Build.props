@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
-    <VersionPrefix>0.2.0</VersionPrefix>
+    <VersionPrefix>0.3.0</VersionPrefix>
     <Title>ByValue</Title>
     <Product>ByValue</Product>
     <Summary>DDD ValueObject implementation helper.</Summary>
@@ -10,6 +10,14 @@
     <PackageProjectUrl>https://github.com/sm-g/ByValue</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/sm-g/ByValue/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>domain-driven-design;ddd;value-object;valueobject</PackageTags>
+    <PackageReleaseNotes>
+      feat: Support custom IEqualityComparers in DictionaryByValue with specialized MultiSetEqualityComparer
+      feat: Add nullable reference types
+      feat: Add ByValue for ISet
+
+      fix: CollectionByValue.GetHashCode() should support items not implementing IComparable
+      fix: CollectionExtensions should create by-value collections with non-default Options
+    </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/sm-g/ByValue</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryBranch>master</RepositoryBranch>
