@@ -143,6 +143,22 @@ namespace ByValue
             Assert.AreEqual(0, firstByValue.GetHashCode());
         }
 
+        [Test]
+        public void OfDictWithNotComparableKeys_ShouldNotThrowWhenGetHashCode()
+        {
+            IDictionary<NotComparableClass, int> dict = new Dictionary<NotComparableClass, int>()
+            {
+                [new NotComparableClass()] = 1,
+                [new NotComparableClass()] = 2
+            };
+
+            var byValue = new DictionaryByValue<NotComparableClass, int>(
+                dict,
+                new DictionaryOptions<NotComparableClass, int>(null, null));
+
+            Assert.DoesNotThrow(() => byValue.GetHashCode());
+        }
+
         #region ToString
 
         [Test]

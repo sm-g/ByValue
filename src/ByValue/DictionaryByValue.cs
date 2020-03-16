@@ -58,13 +58,15 @@ namespace ByValue
             if (_collection is null || _count == 0)
                 return 0;
 
-            return _collection.OrderBy(x => x.Key).Aggregate(17, (sum, value) =>
-            {
-                unchecked
+            return _collection
+                .Aggregate(17, (sum, value) =>
                 {
-                    return (sum * 23) + Options.KeysEqualityComparer.GetHashCode(value.Key);
-                }
-            });
+                    unchecked
+                    {
+                        var keyHashCode = Options.KeysEqualityComparer.GetHashCode(value.Key);
+                        return sum ^ (keyHashCode & 0x7FFFFFFF);
+                    }
+                });
         }
 
         public override string ToString()

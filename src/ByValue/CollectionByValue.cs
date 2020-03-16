@@ -66,13 +66,15 @@ namespace ByValue
             ////    return _collection.Count ^ firstItemHash;
             ////}
 
-            return _collection.OrderBy(x => x).Aggregate(17, (sum, value) =>
-            {
-                unchecked
+            return _collection
+                .Aggregate(17, (sum, value) =>
                 {
-                    return (sum * 23) + (value != null ? Options.EqualityComparer.GetHashCode(value) : 0);
-                }
-            });
+                    unchecked
+                    {
+                        var itemHashCode = value != null ? Options.EqualityComparer.GetHashCode(value) : 0;
+                        return sum ^ (itemHashCode & 0x7FFFFFFF);
+                    }
+                });
         }
 
         public override string ToString()

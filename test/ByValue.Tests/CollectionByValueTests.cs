@@ -122,8 +122,8 @@ namespace ByValue
         [Test]
         public void OfCollectionsWithDifferentOrdering_WithSameItems_ShouldBeEqual()
         {
-            var firstCollection = new[] { "1" };
-            var secondCollection = new[] { "1" };
+            var firstCollection = new[] { "1", "2" };
+            var secondCollection = new[] { "1", "2" };
             var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
             var secondByValue = new CollectionByValue<string>(secondCollection, NotStrictOptions);
 
@@ -168,6 +168,22 @@ namespace ByValue
             var firstByValue = new CollectionByValue<string>(firstCollection, StrictOptions);
 
             Assert.AreEqual(0, firstByValue.GetHashCode());
+        }
+
+        [Test]
+        public void OfCollectionWithNotComparableItems_ShouldNotThrowWhenGetHashCode([Values]bool strictOrdering)
+        {
+            var collection = new[]
+            {
+                new NotComparableClass(),
+                new NotComparableClass()
+            };
+
+            var byValue = new CollectionByValue<NotComparableClass>(
+                collection,
+                new Options<NotComparableClass>(strictOrdering, null));
+
+            Assert.DoesNotThrow(() => byValue.GetHashCode());
         }
 
         #region ToString
