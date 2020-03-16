@@ -38,7 +38,7 @@
 
   <ItemGroup>
     <PackageReference Include="SonarAnalyzer.CSharp">
-      <Version>8.2.0.14119</Version>
+      <Version>8.5.0.15942</Version>
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
