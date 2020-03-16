@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ByValue
 {
@@ -13,5 +14,11 @@ namespace ByValue
         public bool InOrder { get; }
 
         public IEqualityComparer<T> EqualityComparer { get; }
+
+        internal void EnsureIsNotDefault()
+        {
+            if (EqualityComparer is null)
+                throw new InvalidOperationException($"{nameof(EqualityComparer)} is null");
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace ByValue
@@ -17,7 +16,7 @@ namespace ByValue
             _collection = dictionary;
             _count = dictionary?.Count;
 
-            Debug.Assert(!options.Equals(default), "default options struct");
+            options.EnsureIsNotDefault();
             Options = options;
         }
 
@@ -26,7 +25,7 @@ namespace ByValue
             _collection = dictionary;
             _count = dictionary?.Count;
 
-            Debug.Assert(!options.Equals(default), "default options struct");
+            options.EnsureIsNotDefault();
             Options = options;
         }
 

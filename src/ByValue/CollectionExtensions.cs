@@ -12,10 +12,12 @@ namespace ByValue
 
         public static ICollectionByValue ByValue<T>(this IReadOnlyCollection<T> collection)
         {
-            return new CollectionByValue<T>(collection, default);
+            return new CollectionByValue<T>(collection, new Options<T>(false, null));
         }
 
-        public static ICollectionByValue ByValue<T>(this IReadOnlyCollection<T> collection, Action<OptionsBuilder<T>> optionsAction)
+        public static ICollectionByValue ByValue<T>(
+            this IReadOnlyCollection<T> collection,
+            Action<OptionsBuilder<T>> optionsAction)
         {
             var builder = new OptionsBuilder<T>();
             optionsAction.Invoke(builder);
@@ -32,10 +34,12 @@ namespace ByValue
 
         public static ICollectionByValue ByValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
-            return new DictionaryByValue<TKey, TValue>(dictionary, default);
+            return new DictionaryByValue<TKey, TValue>(dictionary, new DictionaryOptions<TKey, TValue>(null, null));
         }
 
-        public static ICollectionByValue ByValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<DictionaryOptionsBuilder<TKey, TValue>> optionsAction)
+        public static ICollectionByValue ByValue<TKey, TValue>(
+            this IDictionary<TKey, TValue> dictionary,
+            Action<DictionaryOptionsBuilder<TKey, TValue>> optionsAction)
         {
             var builder = new DictionaryOptionsBuilder<TKey, TValue>();
             optionsAction.Invoke(builder);
@@ -45,10 +49,12 @@ namespace ByValue
 
         public static ICollectionByValue ByValue<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary)
         {
-            return new DictionaryByValue<TKey, TValue>(dictionary, default);
+            return new DictionaryByValue<TKey, TValue>(dictionary, new DictionaryOptions<TKey, TValue>(null, null));
         }
 
-        public static ICollectionByValue ByValue<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, Action<DictionaryOptionsBuilder<TKey, TValue>> optionsAction)
+        public static ICollectionByValue ByValue<TKey, TValue>(
+            this IReadOnlyDictionary<TKey, TValue> dictionary,
+            Action<DictionaryOptionsBuilder<TKey, TValue>> optionsAction)
         {
             var builder = new DictionaryOptionsBuilder<TKey, TValue>();
             optionsAction.Invoke(builder);

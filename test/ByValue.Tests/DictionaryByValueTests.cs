@@ -186,7 +186,7 @@ namespace ByValue
         [Test]
         public void ToString_OfNullDict_ShouldReturnTypeAndNullMark()
         {
-            var byValue = new DictionaryByValue<string, int>((IDict)null, default);
+            var byValue = new DictionaryByValue<string, int>((IDict)null, Options);
 
             var result = byValue.ToString();
 

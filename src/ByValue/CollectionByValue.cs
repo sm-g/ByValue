@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace ByValue
@@ -13,7 +12,7 @@ namespace ByValue
         {
             _collection = collection;
 
-            Debug.Assert(!options.Equals(default), "default options struct");
+            options.EnsureIsNotDefault();
             Options = options;
         }
 

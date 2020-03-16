@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ByValue
 {
@@ -12,5 +13,13 @@ namespace ByValue
 
         public IEqualityComparer<TKey> KeysEqualityComparer { get; }
         public IEqualityComparer<TValue> ValuesEqualityComparer { get; }
+
+        internal void EnsureIsNotDefault()
+        {
+            if (KeysEqualityComparer is null)
+                throw new InvalidOperationException($"{nameof(KeysEqualityComparer)} is null");
+            if (ValuesEqualityComparer is null)
+                throw new InvalidOperationException($"{nameof(ValuesEqualityComparer)} is null");
+        }
     }
 }
