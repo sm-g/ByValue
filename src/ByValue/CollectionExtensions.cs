@@ -25,12 +25,20 @@ namespace ByValue
             return new CollectionByValue<T>(collection, options);
         }
 
-        // TODO support CollectionByValue of ISet
+        public static ICollectionByValue ByValue<T>(this ISet<T> collection)
+        {
+            return new SetByValue<T>(collection, new Options<T>(false, null));
+        }
 
-        ////public static ICollectionByValue ByValue<T>(this ISet<T> collection)
-        ////{
-        ////    return new CollectionByValue<T>(collection, ordering);
-        ////}
+        public static ICollectionByValue ByValue<T>(
+            this ISet<T> collection,
+            Action<SetOptionsBuilder<T>> optionsAction)
+        {
+            var builder = new SetOptionsBuilder<T>();
+            optionsAction.Invoke(builder);
+            var options = builder.Build();
+            return new SetByValue<T>(collection, options);
+        }
 
         public static ICollectionByValue ByValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
