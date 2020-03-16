@@ -5,7 +5,7 @@
 This library helps to create ValueObjects with properly implemented equality behavior:
 
 1. Provides base `ValueObject` class.
-2. Gives extension `ByValue()` for comparing collections with semantic of ValueObject (`IReadOnlyCollection`, `IReadOnlyDictionary` and `IDictionary` are supported).
+2. Gives extension `ByValue()` for comparing collections with semantic of ValueObject (`IReadOnlyCollection`, `IReadOnlyDictionary`, `IDictionary` and `ISet` are supported).
 
 ## Example
 
