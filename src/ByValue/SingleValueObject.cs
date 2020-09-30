@@ -6,6 +6,9 @@ namespace ByValue
     /// <remarks>
     /// Not using struct for such values because every struct could be created
     /// with default values, which often invalid in domain.
+    /// <para/>
+    /// <see cref="IComparable"/> need because such types usually implement VO semantic and have overridden Equals.
+    /// Without it we have to provide custom equality comparer for <typeparamref name="T"/>.
     /// </remarks>
     public abstract class SingleValueObject<T>
         where T : IComparable
@@ -40,6 +43,9 @@ namespace ByValue
                 return false;
 
             var other = obj as SingleValueObject<T>;
+            if (Value is null)
+                return other!.Value is null;
+
             return Value.Equals(other!.Value);
         }
 

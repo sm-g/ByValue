@@ -59,6 +59,17 @@ namespace ByValue
         }
 
         [Test]
+        public void SingleValueObjectWithSameNullValues_ShouldBeEqual()
+        {
+            var valueObject = new StringValueObject(null);
+            var sameValuesVO = new StringValueObject(null);
+
+            Assert.AreEqual(valueObject, sameValuesVO);
+            Assert.IsTrue(valueObject == sameValuesVO);
+            Assert.IsFalse(valueObject != sameValuesVO);
+        }
+
+        [Test]
         public void SingleValueObjectWithDifferentValue_ShouldBeNotEqual()
         {
             var valueObject = new UserId(1);
