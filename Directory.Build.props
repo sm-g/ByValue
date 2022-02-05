@@ -27,6 +27,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Features>strict</Features>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,7 +47,7 @@
 
   <ItemGroup>
     <PackageReference Include="SonarAnalyzer.CSharp">
-      <Version>8.5.0.15942</Version>
+      <Version>8.15.0.24505</Version>
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">

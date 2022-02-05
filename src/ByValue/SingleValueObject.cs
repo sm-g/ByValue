@@ -3,6 +3,8 @@ using System.Diagnostics;
 
 namespace ByValue
 {
+    // TODO add link about records
+
     /// <remarks>
     /// Not using struct for such values because every struct could be created
     /// with default values, which often invalid in domain.
@@ -10,7 +12,7 @@ namespace ByValue
     /// <see cref="IComparable"/> need because such types usually implement VO semantic and have overridden Equals.
     /// Without it we have to provide custom equality comparer for <typeparamref name="T"/>.
     /// </remarks>
-    public abstract class SingleValueObject<T>
+    public abstract class SingleValueObject<T> : IComparable<T>
         where T : IComparable
     {
         public T Value { get; }
@@ -30,6 +32,14 @@ namespace ByValue
         }
 
         public static bool operator !=(SingleValueObject<T> x, SingleValueObject<T> y) => !(x == y);
+
+        public static bool operator >=(SingleValueObject<T> x, T y) => x.Value.CompareTo(y) >= 0;
+
+        public static bool operator <=(SingleValueObject<T> x, T y) => x.Value.CompareTo(y) <= 0;
+
+        public static bool operator >(SingleValueObject<T> x, T y) => x.Value.CompareTo(y) > 0;
+
+        public static bool operator <(SingleValueObject<T> x, T y) => x.Value.CompareTo(y) < 0;
 
 #pragma warning restore S3875 // "operator==" should not be overloaded on reference types
 
@@ -59,6 +69,11 @@ namespace ByValue
         public override string ToString()
         {
             return Value?.ToString() ?? string.Empty;
+        }
+
+        public int CompareTo(T other)
+        {
+            return Value.CompareTo(other);
         }
     }
 }

@@ -98,6 +98,11 @@ namespace ByValue
 
             Assert.AreNotEqual(baseId, derivedId, "base equals derived");
             Assert.AreNotEqual(derivedId, baseId, "derived equals base");
+
+            var foo = baseId >= derivedId;
+            var bar = derivedId >= baseId;
+            Assert.True(foo);
+            Assert.True(bar);
         }
 
         [Test]
